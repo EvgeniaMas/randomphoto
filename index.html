@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	  <title>Random Pictures</title>
+	  
+	  <style type="text/css">
+
+	  img {
+		  width: 450px;
+		  display: block;
+		  margin: 0 auto;
+		  margin-top: 40px;
+		  margin-bottom: 30px;
+	  } 
+	
+	  #info {
+	  	height: 370px;	  	
+	  	margin:auto;
+	  	display: block;  	  
+	  	
+	  }
+
+	  #checked {
+	  	
+	  	 height: 270px;	
+		  display: block;
+		  margin: 0 auto;
+		  margin-top: 40px;
+		  margin-bottom: 30px;
+	  }
+
+	  .hidden {
+	  	display: none;
+	  }
+	  </style>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	</head>
+
+	<body>
+		<div class="container" >			
+			<h1>Random pictures show!</h1>					
+		</div>
+
+        <div class="container" id="info">			
+			<img id="checked" src="" alt=""/>					
+		</div>
+			
+			
+		<script>
+		 var fullList = [
+          
+          {img: '1.jpg'},
+          {img: '2.jpg'},
+          {img: '3.jpg'},
+          {img: '4.jpg'},
+          {img: '5.jpg'},
+          {img: '6.jpg'},
+          {img: '7.jpg'},
+          {img: '8.jpg'},
+          {img: '9.jpg'},
+          {img: '10.jpg'},
+        ];	
+
+ function randomPicture() {
+  var newPicture = document.getElementById('checked');
+
+  var info = document.getElementById('info');
+  var list = JSON.parse(sessionStorage.getItem('LIST'));
+  if (!list) {
+    var rand = Math.floor(Math.random() * (fullList.length + 1));
+    newPicture.setAttribute('src', 'images/' + fullList[rand].img);
+    var indexToRemove = fullList.findIndex(function (obj) {
+      return obj.img == fullList[rand].img;
+    });
+    fullList.splice(indexToRemove, 1);
+    sessionStorage.setItem('LIST', JSON.stringify(fullList));
+  }
+  // Exucutes using data from SessionStorage before the tab is closed
+  else {
+      var rand = Math.floor(Math.random() * list.length);
+      newPicture.setAttribute('src', 'images/' + list[rand].img);
+      console.log(list[rand].img);
+      console.log(list.length);
+      var indexToRemove = list.findIndex(function (obj) {
+        return obj.img == list[rand].img;
+      });
+      list.splice(indexToRemove, 1);
+      sessionStorage.setItem('LIST', JSON.stringify(list));
+      if (list.length == 0) {
+        info.innerHTML += '<h2> All pictures are shown </h2>';
+      } else {
+        return false;
+      }
+    }
+}
+
+window.addEventListener("load", randomPicture());		
+
+		</script>		
+	</body>
+</html>
